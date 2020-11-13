@@ -23,7 +23,7 @@ void setup() {
 
 void draw() {
   battlefield.bg();
-  battlefield.enemyPokemon(10,50,"Pog",10);
+  battlefield.enemyPokemon(50,50,"Bulbasaur", 16);
 }
 
 void generatePokemon() {

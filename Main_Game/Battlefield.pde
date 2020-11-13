@@ -6,9 +6,9 @@ class Battlefield {
   int dialogueBoxSize = 87;
   int pokemonBoxW;
   int allyPokemonBoxH = 56;
-  int enemyPokemonBoxH = allyPokemonBoxH - 8;
+  int enemyPokemonBoxH = allyPokemonBoxH/2;
   int pokemonBoxCurve = 8;
-  int healthBarHeight = 6;
+  int healthBarHeight = 8;
 
   // I create arrays for the position of everything graphical, so it takes up less space in my code
   int[] circleOne = new int[4];
@@ -36,13 +36,13 @@ class Battlefield {
 
     circleTwo = new int[]{width/2-width/5, height-circleSizeY, circleSizeX, circleSizeY};
 
-    dialogueBox = new int[]{width/2, height-dialogueBoxSize/2, width, dialogueBoxSize};
-
     // X position the same as the corresponding circle
     // Y position is offset by a third of the sprite size
     enemyPokemonPosition = new int[]{circleOne[0], circleOne[1] - spriteSize/3};
 
     allyPokemonPosition = new int[]{circleTwo[0], circleTwo[1]-spriteSize/3};
+
+    dialogueBox = new int[]{width/2, height-dialogueBoxSize/2, width, dialogueBoxSize};
 
     pokemonBoxW = round(width/3.5); // Sets the width of the healthbar to be a fourth of the width of the screen
 
@@ -50,7 +50,7 @@ class Battlefield {
     // Makes the y be the same as its own circle, with the same offset
     // Adds a curve to the rectacle edges
     // Another variable to make one curve less curvier than the other
-    enemyHealthBar = new int[]{circleTwo[0] - 48, circleOne[1] - 48, pokemonBoxW, enemyPokemonBoxH, pokemonBoxCurve, pokemonBoxCurve/4};
+    enemyHealthBar = new int[]{circleTwo[0] - 64, circleOne[1] - 48, pokemonBoxW, enemyPokemonBoxH, pokemonBoxCurve, pokemonBoxCurve/4};
     allyHealthBar = new int[]{circleOne[0] + 48, circleTwo[1] - 64, pokemonBoxW, allyPokemonBoxH, pokemonBoxCurve, pokemonBoxCurve/4};
   }
 
@@ -76,12 +76,21 @@ class Battlefield {
 
   void enemyPokemon(int currentHealth, int maxHealth, String name, int level) {
     rectMode(CORNER);
-    text(name, enemyHealthBar[0]-10, enemyHealthBar[1]-10);
-    text(level, enemyHealthBar[0]-10, enemyHealthBar[1]+10);
+    fill(0);
+    textAlign(LEFT);
+    text(name, enemyHealthBar[0]/3-8, enemyHealthBar[1]-2);
+    textAlign(RIGHT);
+    text("lv:"+level, enemyHealthBar[0]*1.5+28, enemyHealthBar[1]-2);
+    /*stroke(10,100,100);
+    fill(10,100,100);
+    rect(enemyHealthBar[0] - healthBarHeight*2-10, enemyHealthBar[1] - healthBarHeight+10, enemyHealthBar[2]/8, healthBarHeight,3,3,3,3);
+    textAlign(LEFT,CENTER);
+    text("HP",enemyHealthBar[0] - healthBarHeight*2-10, enemyHealthBar[1] - healthBarHeight+10);*/
     fill(#ff0000);
-    rect(enemyHealthBar[0] - healthBarHeight*2, enemyHealthBar[1] - healthBarHeight/2, map(currentHealth, 0, maxHealth, 0, enemyHealthBar[2]/2), healthBarHeight);
+    rect(enemyHealthBar[0] - healthBarHeight*2+6, enemyHealthBar[1] - healthBarHeight+10, map(currentHealth, 0, maxHealth, 0, enemyHealthBar[2]/2), healthBarHeight,3,3,3,3);
     noFill();
-    rect(enemyHealthBar[0] - healthBarHeight*2, enemyHealthBar[1] - healthBarHeight/2, enemyHealthBar[2]/2, healthBarHeight);
+    rect(enemyHealthBar[0] - healthBarHeight*2+6, enemyHealthBar[1] - healthBarHeight+10, enemyHealthBar[2]/2, healthBarHeight,3,3,3,3);
+    
     rectMode(CENTER);
   }
 }
