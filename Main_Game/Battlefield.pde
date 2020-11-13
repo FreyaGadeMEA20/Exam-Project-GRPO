@@ -4,10 +4,11 @@ class Battlefield {
   int spriteSize = 128;
 
   int dialogueBoxSize = 87;
-  int healthBarW;
-  int allyHealthBarH = 56;
-  int enemyHealthBarH = allyHealthBarH - 8;
-  int healthBarCurve = 8;
+  int pokemonBoxW;
+  int allyPokemonBoxH = 56;
+  int enemyPokemonBoxH = allyPokemonBoxH - 8;
+  int pokemonBoxCurve = 8;
+  int healthBarHeight = 6;
 
   // I create arrays for the position of everything graphical, so it takes up less space in my code
   int[] circleOne = new int[4];
@@ -43,14 +44,14 @@ class Battlefield {
 
     allyPokemonPosition = new int[]{circleTwo[0], circleTwo[1]-spriteSize/3};
 
-    healthBarW = round(width/3.5); // Sets the width of the healthbar to be a fourth of the width of the screen
+    pokemonBoxW = round(width/3.5); // Sets the width of the healthbar to be a fourth of the width of the screen
 
     // Makes the x position be the same as the enemy, so i can place it above it. With an offset
     // Makes the y be the same as its own circle, with the same offset
     // Adds a curve to the rectacle edges
     // Another variable to make one curve less curvier than the other
-    enemyHealthBar = new int[]{circleTwo[0] - 48, circleOne[1] - 48, healthBarW, enemyHealthBarH, healthBarCurve, healthBarCurve/4};
-    allyHealthBar = new int[]{circleOne[0] + 48, circleTwo[1] - 64, healthBarW, allyHealthBarH, healthBarCurve, healthBarCurve/4};
+    enemyHealthBar = new int[]{circleTwo[0] - 48, circleOne[1] - 48, pokemonBoxW, enemyPokemonBoxH, pokemonBoxCurve, pokemonBoxCurve/4};
+    allyHealthBar = new int[]{circleOne[0] + 48, circleTwo[1] - 64, pokemonBoxW, allyPokemonBoxH, pokemonBoxCurve, pokemonBoxCurve/4};
   }
 
   void bg() {
@@ -71,5 +72,16 @@ class Battlefield {
     rect(enemyHealthBar[0], enemyHealthBar[1], enemyHealthBar[2], enemyHealthBar[3], enemyHealthBar[4], enemyHealthBar[5], enemyHealthBar[4], enemyHealthBar[5]);
 
     rect(allyHealthBar[0], allyHealthBar[1], allyHealthBar[2], allyHealthBar[3], allyHealthBar[4], allyHealthBar[5], allyHealthBar[4], allyHealthBar[5]);
+  }
+
+  void enemyPokemon(int currentHealth, int maxHealth, String name, int level) {
+    rectMode(CORNER);
+    text(name, enemyHealthBar[0]-10, enemyHealthBar[1]-10);
+    text(level, enemyHealthBar[0]-10, enemyHealthBar[1]+10);
+    fill(#ff0000);
+    rect(enemyHealthBar[0] - healthBarHeight*2, enemyHealthBar[1] - healthBarHeight/2, map(currentHealth, 0, maxHealth, 0, enemyHealthBar[2]/2), healthBarHeight);
+    noFill();
+    rect(enemyHealthBar[0] - healthBarHeight*2, enemyHealthBar[1] - healthBarHeight/2, enemyHealthBar[2]/2, healthBarHeight);
+    rectMode(CENTER);
   }
 }

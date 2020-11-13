@@ -23,6 +23,7 @@ void setup() {
 
 void draw() {
   battlefield.bg();
+  battlefield.enemyPokemon(10,50,"Pog",10);
 }
 
 void generatePokemon() {
