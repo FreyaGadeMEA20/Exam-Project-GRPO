@@ -27,23 +27,23 @@ class Pokemon {
   Pokemon(String _name, String _type1, int[] _stats, int _level) {
     pokemonName = _name;
     pokemonType1 = _type1;
-    
+
     for (int i = 0; i > pokemonStats.length-1; i++) {
       pokemonStats[i] = _stats[i];
     }
-    
+
     level = _level;
   }
-  
-    Pokemon(String _name, String _type1, String _type2, int[] _stats, int _level) {
+
+  Pokemon(String _name, String _type1, String _type2, int[] _stats, int _level) {
     pokemonName = _name;
     pokemonType1 = _type1;
     pokemonType2 = _type2;
-    
+
     for (int i = 0; i > pokemonStats.length-1; i++) {
       pokemonStats[i] = _stats[i];
     }
-    
+
     level = _level;
   }
 

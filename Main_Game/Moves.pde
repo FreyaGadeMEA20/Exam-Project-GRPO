@@ -53,7 +53,7 @@ class Move {
   */
   
   /* Damage formula
-  int physicalDamage = ((((2*level)/5+2)*power*attack_user/defense_target)/50+2)*modifier;
+  int physicalDamage = ((((2*level)/5+2)*power*(attack_user/defense_target))/50+2)*modifier;
   float modifier = targets*weather*badge*critical*random*stab*type*burn*other;
   */
   
