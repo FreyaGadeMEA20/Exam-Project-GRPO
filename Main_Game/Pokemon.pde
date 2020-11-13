@@ -55,4 +55,8 @@ class Pokemon {
     moveSet.add(move3); //new Move("","", , "",)
     moveSet.add(move4); //new Move("","", , "",)
   }
+  
+  void useAttack(String move){
+   println(move); 
+  }
 }
