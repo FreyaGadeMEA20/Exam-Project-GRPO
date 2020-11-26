@@ -5,8 +5,8 @@ class Battlefield {
 
   int dialogueBoxSize = 87;
   int pokemonBoxW;
-  int allyPokemonBoxH = 56;
-  int enemyPokemonBoxH = allyPokemonBoxH/2;
+  int allyPokemonBoxH = 48;
+  int enemyPokemonBoxH = allyPokemonBoxH/2+4;
   int pokemonBoxCurve = 8;
   int healthBarHeight = 8;
 
@@ -61,8 +61,6 @@ class Battlefield {
     ellipse(circleOne[0], circleOne[1], circleOne[2], circleOne[3]);
     ellipse(circleTwo[0], circleTwo[1], circleTwo[2], circleTwo[3]);
 
-    fill(0);
-    rect(dialogueBox[0], dialogueBox[1], dialogueBox[2], dialogueBox[3]);
 
     image(enemyPokemonSprite, enemyPokemonPosition[0], enemyPokemonPosition[1]);
 
@@ -72,25 +70,80 @@ class Battlefield {
     rect(enemyHealthBar[0], enemyHealthBar[1], enemyHealthBar[2], enemyHealthBar[3], enemyHealthBar[4], enemyHealthBar[5], enemyHealthBar[4], enemyHealthBar[5]);
 
     rect(allyHealthBar[0], allyHealthBar[1], allyHealthBar[2], allyHealthBar[3], allyHealthBar[4], allyHealthBar[5], allyHealthBar[4], allyHealthBar[5]);
+
+    fill(0);
+    rect(dialogueBox[0], dialogueBox[1], dialogueBox[2], dialogueBox[3]);
   }
 
-  void enemyPokemon(int currentHealth, int maxHealth, String name, int level) {
-    rectMode(CORNER);
-    fill(0);
-    textAlign(LEFT);
-    text(name, enemyHealthBar[0]/3-8, enemyHealthBar[1]-2);
-    textAlign(RIGHT);
-    text("lv:"+level, enemyHealthBar[0]*1.5+28, enemyHealthBar[1]-2);
-    /*stroke(10,100,100);
-    fill(10,100,100);
-    rect(enemyHealthBar[0] - healthBarHeight*2-10, enemyHealthBar[1] - healthBarHeight+10, enemyHealthBar[2]/8, healthBarHeight,3,3,3,3);
-    textAlign(LEFT,CENTER);
-    text("HP",enemyHealthBar[0] - healthBarHeight*2-10, enemyHealthBar[1] - healthBarHeight+10);*/
-    fill(#ff0000);
-    rect(enemyHealthBar[0] - healthBarHeight*2+6, enemyHealthBar[1] - healthBarHeight+10, map(currentHealth, 0, maxHealth, 0, enemyHealthBar[2]/2), healthBarHeight,3,3,3,3);
-    noFill();
-    rect(enemyHealthBar[0] - healthBarHeight*2+6, enemyHealthBar[1] - healthBarHeight+10, enemyHealthBar[2]/2, healthBarHeight,3,3,3,3);
+  void dialogueBox(Pokemon pokemon) {
+    fill(255);
+    int offset = 4;
+    int curve = 8;
+    rect(dialogueBox[0], dialogueBox[1], dialogueBox[2]-offset, dialogueBox[3]-offset, curve,curve,curve,curve);
+    line(dialogueBox[0]*1.6, dialogueBox[1]-(dialogueBox[3]/2), dialogueBox[0]*1.6, dialogueBox[1]+dialogueBox[3]*2);
     
+    // Moves
+    fill(180);
+    int yOffset = 20;
+    rect(dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]-yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
+    rect(dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]-yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
+    rect(dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]+yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
+    rect(dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]+yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
+    
+    // Text
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text("Move1", dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]-yOffset);
+    text("Move2", dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]-yOffset);
+    text("Move3", dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]+yOffset);
+    text("Move4", dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]+yOffset);
+  }
+
+  void enemyPokemonHealth(int currentHealth, int maxHealth, String name, int level) {
+    rectMode(CORNER); // As I have elements that function better in the corner, I set the rect mode to corner.
+
+    fill(0);
+    // Text of the pokemon
+    textAlign(LEFT); // As the name starts from the left side, I write it out from the left side with textAlign
+    text(name, enemyHealthBar[0]/3-8, enemyHealthBar[1]-2);
+    textAlign(RIGHT); // As the level is the opposite of the name, I set the textALign to be from the right side instead
+    text("lv:"+level, enemyHealthBar[0]*1.5+28, enemyHealthBar[1]-2);
+
+    // Slider for the health value
+    fill(#ff0000);
+    rect(enemyHealthBar[0] - healthBarHeight*2+6, enemyHealthBar[1] - healthBarHeight+10, map(currentHealth, 0, maxHealth, 0, enemyHealthBar[2]/2), healthBarHeight, 3, 3, 3, 3);
+
+    // Outer rim of the health value
+    noFill();
+    rect(enemyHealthBar[0] - healthBarHeight*2+6, enemyHealthBar[1] - healthBarHeight+10, enemyHealthBar[2]/2, healthBarHeight, 3, 3, 3, 3);
+
+    rectMode(CENTER);
+  }
+
+  void allyPokemonHealth(int currentHealth, int maxHealth, String name, int level) {
+    rectMode(CORNER); // As I have elements that function better in the corner, I set the rect mode to corner.
+
+    fill(0);
+    // Text of the pokemon - name
+    textAlign(LEFT); // As the name starts from the left side, I write it out from the left side with textAlign
+    text(name, allyHealthBar[0]-(allyHealthBar[2]/2)+8, allyHealthBar[1]-(allyHealthBar[3]/2)+16);
+
+    // Text of the pokemon - level
+    textAlign(RIGHT); // As the level is the opposite of the name, I set the textALign to be from the right side instead
+    text("lv:"+level, allyHealthBar[0]+(allyHealthBar[2]/2), allyHealthBar[1]-(allyHealthBar[3]/2) + 16);
+
+    // Text of the pokemon - health
+    textAlign(RIGHT, CENTER);
+    text(currentHealth + "/" + maxHealth, allyHealthBar[0] + (allyHealthBar[2]/2), allyHealthBar[1] + allyHealthBar[3]/4);
+
+    // Slider for the health value
+    fill(#ff0000);
+    rect(allyHealthBar[0] - healthBarHeight*2+6, allyHealthBar[1] - healthBarHeight + 4, map(currentHealth, 0, maxHealth, 0, allyHealthBar[2]/2), healthBarHeight, 3, 3, 3, 3);
+
+    // Outer rim of the health value
+    noFill();
+    rect(allyHealthBar[0] - healthBarHeight*2+6, allyHealthBar[1] - healthBarHeight + 4, allyHealthBar[2]/2, healthBarHeight, 3, 3, 3, 3);
+
     rectMode(CENTER);
   }
 }

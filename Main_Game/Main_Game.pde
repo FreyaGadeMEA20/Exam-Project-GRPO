@@ -4,14 +4,22 @@ Pokemon enemyPokemon, allyPokemon;
 // Instantiating the background
 Battlefield battlefield;
 
-int accuracyAndEvasion = 100; // As accuracy and evasion both start at 100, I give them a shared variable.
+Move move1, move2, move3, move4;
+
+int accuracyAndEvasion = 1; // As accuracy and evasion both start at 100, I give them a shared variable.
 
 // HP, atk, def, spAtk, spDef, Accuracy, Evasion, Speed
-int[] enemyPokemonStats = {80, 50, 80, 20, 65, accuracyAndEvasion, accuracyAndEvasion, 40};
-int[] allyPokemonStats = {50, 70, 50, 40, 55, accuracyAndEvasion, accuracyAndEvasion, 60};
+float[] enemyPokemonStats = {40, 20, 20, 25, 25, 1, 0, 19};
+float[] allyPokemonStats = {38, 19, 19, 24, 24, 1, 0, 18};
+
+int allyPokemonLevel = 15;
+int enemyPokemonLevel = 16;
+
+String allyPokemonName = "Bulbasaur";
+String enemyPokemonName = "Bulbasaur";
 
 void setup() {
-  size(512, 384); //Size is the same as the size of a nintendo Screen.
+  size(512, 384); //Size is the same as twice the size of a Nintendo DS screen.
   rectMode(CENTER);
   imageMode(CENTER);
   
@@ -22,16 +30,24 @@ void setup() {
 }
 
 void draw() {
+  
+  // I constantly update the battlefield each frame.
   battlefield.bg();
-  battlefield.enemyPokemon(50,50,"Bulbasaur", 16);
+  battlefield.allyPokemonHealth(round(allyPokemon.currentHealth), round(allyPokemon.pokemonStats[0]), allyPokemonName, allyPokemonLevel);
+  battlefield.enemyPokemonHealth(round(enemyPokemon.currentHealth), round(enemyPokemon.pokemonStats[0]), enemyPokemonName, enemyPokemonLevel);
+  battlefield.dialogueBox(allyPokemon);
 }
 
 void generatePokemon() {
-  enemyPokemon = new Pokemon("Wide Gade", "Normal", enemyPokemonStats, 5);
-  allyPokemon = new Pokemon("Cowboy Hat Gade", "", "", allyPokemonStats, 5);
+  enemyPokemon = new Pokemon(enemyPokemonName, "Normal", enemyPokemonStats, enemyPokemonLevel);
+  allyPokemon = new Pokemon(allyPokemonName, "five", "five", allyPokemonStats, allyPokemonLevel);
   
-  Move move1 = new Move("Tackle", "Tackles the opponent", 40, 100, 35, "Normal", "Physical", 1) ;
+  Move move1 = new Move("Tackle", "Tackles the opponent", 40, 100, 35, "Normal", "Physical", 1);
+  Move move2 = new Move("Razor Leaf", "Tackles the opponent", 55, 90, 25, "Grass", "Special", 1);
   
-  allyPokemon.setMoves(move1,move1,move1,move1);
-  allyPokemon.useAttack(move1.name);
+  allyPokemon.setMoves(move1, move2, move1, move1);
+}
+
+void mousePressed(){
+  allyPokemon.useAttack(1, enemyPokemon);
 }
