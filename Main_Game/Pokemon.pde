@@ -56,8 +56,8 @@ class Pokemon {
     moveSet.add(move4); //new Move("","", , "",)
   }
 
-  void useAttack(int move, Pokemon target) {
-    Move chosenMove = moveSet.get(move-1);
+  void useAttack(Move chosenMove, Pokemon target) {
+    //Move chosenMove = moveSet.get(move-1);
     if (chosenMove.checkToHit(chosenMove.accuracy, pokemonStats[accuracy], target.pokemonStats[evasion]) == true) {
       if (chosenMove.category == "Status") {
       } else if (chosenMove.category == "Physical") {

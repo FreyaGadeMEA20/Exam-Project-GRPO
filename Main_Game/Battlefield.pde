@@ -23,6 +23,14 @@ class Battlefield {
   PImage enemyPokemonSprite;
   PImage allyPokemonSprite;
 
+  boolean chooseMove = true;
+
+  color move1Color = 180, move2Color = #00FF00, move3Color = 180, move4Color = 180;
+  int selectedMove;
+  boolean moveSelected;
+  boolean selectedAMove;
+
+
   void visualVariables() {
     enemyPokemonSprite = loadImage("bulbasaur.png");
     enemyPokemonSprite.resize(spriteSize, spriteSize);
@@ -61,7 +69,6 @@ class Battlefield {
     ellipse(circleOne[0], circleOne[1], circleOne[2], circleOne[3]);
     ellipse(circleTwo[0], circleTwo[1], circleTwo[2], circleTwo[3]);
 
-
     image(enemyPokemonSprite, enemyPokemonPosition[0], enemyPokemonPosition[1]);
 
     image(allyPokemonSprite, allyPokemonPosition[0], allyPokemonPosition[1]);
@@ -76,29 +83,57 @@ class Battlefield {
   }
 
   void dialogueBox(Pokemon pokemon) {
-    fill(255);
+    color dialogueBoxColor = 255;
+    fill(dialogueBoxColor);
     int offset = 4;
     int curve = 8;
-    rect(dialogueBox[0], dialogueBox[1], dialogueBox[2]-offset, dialogueBox[3]-offset, curve,curve,curve,curve);
-    line(dialogueBox[0]*1.6, dialogueBox[1]-(dialogueBox[3]/2), dialogueBox[0]*1.6, dialogueBox[1]+dialogueBox[3]*2);
-    
-    // Moves
-    fill(180);
-    int yOffset = 20;
-    rect(dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]-yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
-    rect(dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]-yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
-    rect(dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]+yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
-    rect(dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]+yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, curve, curve, curve);
-    
-    // Text
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text("Move1", dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]-yOffset);
-    text("Move2", dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]-yOffset);
-    text("Move3", dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]+yOffset);
-    text("Move4", dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]+yOffset);
+    rect(dialogueBox[0], dialogueBox[1], dialogueBox[2]-offset, dialogueBox[3]-offset, curve, curve, curve, curve);
+
+    if (chooseMove) {
+
+      line(dialogueBox[0]*1.6, dialogueBox[1]-(dialogueBox[3]/2), dialogueBox[0]*1.6, dialogueBox[1]+dialogueBox[3]*2);
+      // Moves
+      int yOffset = 20;
+      boolean move1 = drawMove(dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]-yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, pokemon, 1, move1Color);
+      boolean move2 = drawMove(dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]-yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, pokemon, 2, move2Color);
+      boolean move3 = drawMove(dialogueBox[0]-(dialogueBox[2]/3.5), dialogueBox[1]+yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, pokemon, 3, move3Color);
+      boolean move4 = drawMove(dialogueBox[0]+(dialogueBox[2]/10), dialogueBox[1]+yOffset, dialogueBox[2]/3, dialogueBox[3]/2.5, curve, pokemon, 4, move4Color);
+
+      if (move1 || move2 || move3 || move4) {
+        selectedAMove = true;
+      } else {
+        selectedAMove = false;
+      }
+    } else {
+      
+    }
   }
 
+  boolean drawMove(float x, float y, float w, float h, float curve, Pokemon pokemon, int moveName, color moveColor) {
+    color baseColor = moveColor;
+
+    boolean mouseCondition1 = mouseX > x - (w/2);
+    boolean mouseCondition2 = mouseX < x + (w/2);
+    boolean mouseCondition3 = mouseY > y - (h/2);
+    boolean mouseCondition4 = mouseY < y + (h/2);
+
+    if (mouseCondition1 && mouseCondition2 && mouseCondition3 && mouseCondition4) {
+      moveColor = moveColor - 60;
+      moveSelected = true;
+      selectedMove = moveName;
+    } else {
+      moveColor = baseColor;
+      moveSelected = false;
+    }
+
+    fill(moveColor);
+    rect(x, y, w, h, curve, curve, curve, curve);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text(pokemon.moveSet.get(moveName-1).name, x, y);
+    return moveSelected;
+  }
+  
   void enemyPokemonHealth(int currentHealth, int maxHealth, String name, int level) {
     rectMode(CORNER); // As I have elements that function better in the corner, I set the rect mode to corner.
 
