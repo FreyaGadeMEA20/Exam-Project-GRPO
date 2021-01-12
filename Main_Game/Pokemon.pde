@@ -16,7 +16,7 @@ class Pokemon {
   int accuracy = 5;
   int evasion = 6;
   int speed = 7;
-  
+
   float[] pokemonStats = new float[8];
 
   // Level || Just for actual visual and does not really get used.
@@ -60,15 +60,24 @@ class Pokemon {
     //Move chosenMove = moveSet.get(move-1);
     if (chosenMove.checkToHit(chosenMove.accuracy, pokemonStats[accuracy], target.pokemonStats[evasion]) == true) {
       if (chosenMove.category == "Status") {
+        // Use status move
       } else if (chosenMove.category == "Physical") {
-        chosenMove.physicalDamageToTarget(level, pokemonStats[physicalAtk], target);
+        chosenMove.physicalDamageToTarget(level, pokemonStats[physicalAtk], target); // Use physical move
       } else if (chosenMove.category == "Special") {
-        chosenMove.specialDamageToTarget(level, pokemonStats[specialAtk], target);
+        chosenMove.specialDamageToTarget(level, pokemonStats[specialAtk], target); // Use special move
       } else {
         println("No category found. Cannot execute move.");
       }
     } else {
       println("Miss");
     }
+  }
+
+  boolean checkFaint(Pokemon target) {
+    if (target.currentHealth <= 0) {
+      target.currentHealth = 0;
+      return true;
+    }
+    return false;
   }
 }

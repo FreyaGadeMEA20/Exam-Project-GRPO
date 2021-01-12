@@ -14,7 +14,7 @@ void setup() {
 
 void draw() {
   //if (mousePressed) {
-  isPressed = true;
+  //isPressed = true;
   background(150);
   fill(255);
 

@@ -29,6 +29,7 @@ class Battlefield {
   int selectedMove;
   boolean moveSelected;
   boolean selectedAMove;
+  boolean gameFinished = false;
 
 
   void visualVariables() {

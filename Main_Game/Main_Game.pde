@@ -18,14 +18,12 @@ int allyPokemonLevel = 15;
 int enemyPokemonLevel = 16;
 
 String allyPokemonName = "Bulbasaur";
-String enemyPokemonName = "Bulbasaur";
+String enemyPokemonName = "Enemy Bulbasaur";
 
 void setup() {
   size(512, 384); //Size is the same as twice the size of a Nintendo DS screen.
   rectMode(CENTER);
   imageMode(CENTER);
-
-
 
   battlefield = new Battlefield();
 
@@ -40,9 +38,16 @@ void draw() {
   battlefield.allyPokemonHealth(round(allyPokemon.currentHealth), round(allyPokemon.pokemonStats[0]), allyPokemonName, allyPokemonLevel);
   battlefield.enemyPokemonHealth(round(enemyPokemon.currentHealth), round(enemyPokemon.pokemonStats[0]), enemyPokemonName, enemyPokemonLevel);
   battlefield.dialogueBox(allyPokemon);
-  
-  if (!battlefield.chooseMove){
+
+  if (!battlefield.chooseMove && !battlefield.gameFinished) {
     battle.battleTextWriter(battlefield);
+  } 
+  
+  if (battlefield.gameFinished) {
+    background(0);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text(battle.winningText, width/2, height/2);
   }
 }
 
@@ -59,10 +64,9 @@ void generatePokemon() {
 
 void mousePressed() {
   if (battlefield.selectedAMove) {
+    battlefield.selectedAMove = false;
     battlefield.chooseMove = false;
     battle = new Battle(allyPokemon, enemyPokemon);
     battle.battleController(battlefield);
-    
   }
-  //allyPokemon.useAttack(1, enemyPokemon);
 }

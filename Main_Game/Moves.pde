@@ -55,17 +55,13 @@ class Move {
 
   void physicalDamageToTarget(int level, float attack_user, Pokemon target) {
     float modifier = 1; //targets*weather*badge*critical*random*stab*type*burn*other;
-    println(power);
     float physicalDamage = ((((2*level)/5+2)*power*(attack_user/target.pokemonStats[target.physicalDef]))/50+2)*modifier;
-    println("physical damage " + physicalDamage);
     target.currentHealth -= physicalDamage;
   }
 
   void specialDamageToTarget(int level, float attack_user, Pokemon target) {
     float modifier = 1; //targets*weather*badge*critical*random*stab*type*burn*other;
     float specialDamage = ((((2*level)/5+2)*power*(attack_user/target.pokemonStats[target.specialDef]))/50+2)*modifier;
-    println("special damage " + specialDamage);
-    println(level + " " + power + " " + attack_user + " " + target.pokemonStats[target.specialDef]);
     target.currentHealth -= specialDamage;
   }
 
