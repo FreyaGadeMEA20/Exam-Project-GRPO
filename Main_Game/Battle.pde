@@ -73,6 +73,7 @@ class Battle {
         useAttack();
         delay(3000);
         firstText = false;
+        println("pog");
       }
     } else {
       if (counter < text[textNumber].length()) {
@@ -81,6 +82,7 @@ class Battle {
         useAttack();
         delay(3000);
         battlefield.chooseMove = true;
+        println("pog2");
       }
     }
 
