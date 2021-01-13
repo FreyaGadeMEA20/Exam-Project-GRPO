@@ -10,12 +10,18 @@ class Battle {
   int textNumber = 0;
   int textOffset = 20;
 
+  int delay = 180;
+  int setDelay = 180;
+  boolean moveDelay = false;
   boolean firstText = true;
   boolean secondText = false;
   boolean thirdText = false;
 
   boolean gameFinished = false;
   String winningText = "";
+
+  boolean missed = false;
+  float counterForMiss;
 
   Pokemon ally, enemy;
 
@@ -84,49 +90,105 @@ class Battle {
       if (counter < text[textNumber].length()) {
         counter++;
       } else if (counter >= text[textNumber].length()) {
-        useAttack();
-        delay(3000);
-
-        // Variables controlling it is the next text to write
-        firstText = false;
-        if (!thirdText) {
-          secondText = true;
+        if (!moveDelay) {
+          useAttack();
+          moveDelay = true;
         }
-        counter = 0;
-        textNumber++;
+        ownDelay();
+
+        if (!moveDelay) {
+          // Variables controlling it is the next text to write
+          firstText = false;
+          if (!thirdText) {
+            secondText = true;
+          }
+          counter = 0;
+          textNumber++;
+          delay = setDelay;
+        }
       }
     } else if (secondText)
     {
       if (counter < text[textNumber].length()) {
         counter++;
       } else if (counter >= text[textNumber].length()) {
-        useAttack();
-        delay(3000);
+        if (!moveDelay) {
+          useAttack();
+          moveDelay = true;
+        }
 
-        // Variable to reset it to before moves
-        secondText = false;
-        thirdText = true;
-        counter = 0;
-        textNumber++;
+        ownDelay();
+
+        if (!moveDelay) {
+          // Variable to reset it to before moves
+          secondText = false;
+          thirdText = true;
+          counter = 0;
+          textNumber++;
+          delay = setDelay;
+        }
       }
     } else if (thirdText) {
       if (counter < text[textNumber].length()) {
         counter++;
       } else if (counter >= text[textNumber].length()) {
-        if (text[textNumber] != "") {
-          delay(3000);
+        if (!moveDelay) {
+          useAttack();
+          if (text[textNumber] != "") {
+            moveDelay = true;
+          }
         }
 
-        // Variable to go back to picking moves
-        if (!gameFinished) {
-          battlefield.chooseMove = true;
-        } else {
-          battlefield.gameFinished = true;
+        if (text[textNumber] != "") {
+          ownDelay();
+        }
+
+        if (!moveDelay) {
+          // Variable to go back to picking moves
+          if (!gameFinished) {
+            battlefield.chooseMove = true;
+          } else {
+            battlefield.gameFinished = true;
+          }
         }
       }
     }
 
+
     text(text[textNumber].substring(0, counter), textOffset, battlefield.dialogueBox[1]-textOffset); // Position of text
+
+    if (missed) {
+      if (counterForMiss > 0) {
+        counterForMiss--;
+      } else {
+        missed = false;
+      }
+      textSize(map(counterForMiss, 0, 100, 32, 48));
+      stroke(0);
+      textAlign(CENTER, BOTTOM);
+      text("Miss!", width/2, height/2);
+      textSize(12);
+    }
+  }
+
+  // ______
+
+  void ownDelay() {
+    if (delay > 0) {
+      delay--;
+    } else {
+      moveDelay = false;
+    }
+  }
+
+  // ______
+
+  void missed() {
+    if (!missed) {
+      counterForMiss = 100;
+      missed = true;
+    } else if (missed) {
+    }
   }
 
   // ______ 
@@ -146,10 +208,10 @@ class Battle {
   void allyFirst() {
     if (firstText) {
       ally.useAttack(chosenMove, enemy);
-      checkFaint(ally, enemy, 1);
-    } else {
+      otherCombatMessages(ally, enemy, 1);
+    } else if (secondText) {
       enemy.useAttack(randomEnemyMove, ally);
-      checkFaint(enemy, ally, 2);
+      otherCombatMessages(enemy, ally, 2);
     }
   }
 
@@ -158,10 +220,10 @@ class Battle {
   void enemyFirst() {
     if (firstText) {
       enemy.useAttack(randomEnemyMove, ally);
-      checkFaint(enemy, ally, 1);
-    } else {
+      otherCombatMessages(enemy, ally, 1);
+    } else if (secondText) {
       ally.useAttack(chosenMove, enemy);
-      checkFaint(ally, enemy, 2);
+      otherCombatMessages(ally, enemy, 2);
     }
   }
 
@@ -171,25 +233,28 @@ class Battle {
     if (rand > 0.5) {
       if (firstText) {
         ally.useAttack(chosenMove, enemy);
-        checkFaint(ally, enemy, 1);
-      } else {
+        otherCombatMessages(ally, enemy, 1);
+      } else if (secondText) {
         enemy.useAttack(randomEnemyMove, ally);
-        checkFaint(enemy, ally, 2);
+        otherCombatMessages(enemy, ally, 2);
       }
     } else {
       if (firstText) {
         enemy.useAttack(randomEnemyMove, ally);
-        checkFaint(enemy, ally, 1);
-      } else {
+        otherCombatMessages(enemy, ally, 1);
+      } else if (secondText) {
         ally.useAttack(chosenMove, enemy);
-        checkFaint(ally, enemy, 2);
+        otherCombatMessages(ally, enemy, 2);
       }
     }
   }
 
   // ______ 
 
-  void checkFaint(Pokemon user, Pokemon target, int turn) {
+  void otherCombatMessages(Pokemon user, Pokemon target, int turn) {
+    if (user.missed) {
+      missed();
+    }
     if (user.checkFaint(target)) {
       if (turn == 1) {
         thirdText = true;

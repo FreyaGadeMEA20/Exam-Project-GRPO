@@ -26,6 +26,9 @@ class Pokemon {
   int level;
   int experiencePoints;
 
+  float counter;
+  boolean missed = false;
+
   // ______ 
 
   Pokemon(String _name, String _type1, float[] _stats, int _level) {
@@ -72,21 +75,21 @@ class Pokemon {
       } else if (chosenMove.category == "Physical") {
         chosenMove.physicalDamageToTarget(level, pokemonStats[physicalAtk], target); // Use physical move
         chosenMove.playSound();
-        
+
         target.lowerHealth();
       } else if (chosenMove.category == "Special") {
         chosenMove.specialDamageToTarget(level, pokemonStats[specialAtk], target); // Use special move
         chosenMove.playSound();
-        
+
         target.lowerHealth();
       } else {
         println("No category found. Cannot execute move.");
       }
     } else {
-      println("Miss");
+      missed = true;
     }
   }
-  
+
   // ______ 
 
   boolean checkFaint(Pokemon target) {
@@ -96,7 +99,7 @@ class Pokemon {
     }
     return false;
   }
-  
+
   // ______ 
 
   void lowerHealth() {

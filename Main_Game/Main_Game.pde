@@ -29,6 +29,8 @@ void setup() {
   size(512, 384); //Size is the same as twice the size of a Nintendo DS screen.
   rectMode(CENTER);
   imageMode(CENTER);
+  textSize(12);
+  frameRate(60);
 
   bgMusic = new SoundFile(this, "battleMusic.mp3");
   bgMusic.amp(0.05);
