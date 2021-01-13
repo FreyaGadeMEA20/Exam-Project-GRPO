@@ -15,6 +15,8 @@ class Move {
   //Some moves are faster than others, so I have to make a variable to determine the speed of the move
   int speed;
 
+  // ______ 
+
   // Attack move constructor
   Move(String _name, String _description, int _power, int _accuracy, int _powerPoint, String _type, String _category, int _speed, SoundFile _file) {
     name = _name;
@@ -29,6 +31,8 @@ class Move {
     speed = _speed;
   }
 
+  // ______ 
+
   // Status move constructor
   Move(String _name, String _description, int _accuracy, int _powerPoint, String _type, int _speed) {
     name = _name;
@@ -41,6 +45,8 @@ class Move {
     speed = _speed;
   }
 
+  // ______ 
+
   boolean checkToHit(int accuracyMove, float accuracy, float evasion) {
     float A = accuracyMove * (accuracy - evasion);
     float R = round(random(1, 100));
@@ -52,10 +58,14 @@ class Move {
     }
   }
 
+  // ______ 
+
   void playSound() {
     file.amp(0.4);
     file.play();
   }
+  
+  // ______ 
 
   void physicalDamageToTarget(int level, float attack_user, Pokemon target) {
     float modifier = 1; //targets*weather*badge*critical*random*stab*type*burn*other;
@@ -63,24 +73,11 @@ class Move {
     target.newHealth -= physicalDamage;
   }
 
+  // ______ 
+
   void specialDamageToTarget(int level, float attack_user, Pokemon target) {
     float modifier = 1; //targets*weather*badge*critical*random*stab*type*burn*other;
     float specialDamage = ((((2*level)/5+2)*power*(attack_user/target.pokemonStats[target.specialDef]))/50+2)*modifier;
     target.newHealth -= specialDamage;
   }
-
-  /* Accuracy to hit formula (taken from bulbapedia, official pokemon encyclopedia) 
-   int A = accuracy_move * (evasion_target - accuracy_user);
-   int R = round(random(1, 100));
-   if (R <= A){
-   hit 
-   } else {
-   miss 
-   }
-   */
-
-  /* Damage formula
-   int physicalDamage = ((((2*level)/5+2)*power*(attack_user/defense_target))/50+2)*modifier;
-   float modifier = targets*weather*badge*critical*random*stab*type*burn*other;
-   */
 }

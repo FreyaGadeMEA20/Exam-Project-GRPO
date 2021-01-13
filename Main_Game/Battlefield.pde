@@ -31,6 +31,7 @@ class Battlefield {
   boolean selectedAMove;
   boolean gameFinished = false;
 
+  // ______ 
 
   void visualVariables() {
     enemyPokemonSprite = loadImage("bulbasaur.png");
@@ -63,6 +64,8 @@ class Battlefield {
     allyHealthBar = new int[]{circleOne[0] + 48, circleTwo[1] - 64, pokemonBoxW, allyPokemonBoxH, pokemonBoxCurve, pokemonBoxCurve/4};
   }
 
+  // ______ 
+
   void bg() {
     background(230, 255, 255);
 
@@ -93,6 +96,8 @@ class Battlefield {
     rect(dialogueBox[0], dialogueBox[1], dialogueBox[2], dialogueBox[3]);
   }
 
+  // ______ 
+
   void dialogueBox(Pokemon pokemon) {
     color dialogueBoxColor = 255;
     fill(dialogueBoxColor);
@@ -119,6 +124,8 @@ class Battlefield {
     }
   }
 
+  // ______ 
+
   boolean drawMove(float x, float y, float w, float h, float curve, Pokemon pokemon, int moveName, color moveColor) {
     color baseColor = moveColor;
 
@@ -144,6 +151,8 @@ class Battlefield {
     return moveSelected;
   }
 
+  // ______ 
+
   void enemyPokemonHealth(int currentHealth, int maxHealth, String name, int level) {
     rectMode(CORNER); // As I have elements that function better in the corner, I set the rect mode to corner.
 
@@ -164,6 +173,8 @@ class Battlefield {
 
     rectMode(CENTER);
   }
+
+  // ______ 
 
   void allyPokemonHealth(int currentHealth, int maxHealth, String name, int level) {
     rectMode(CORNER); // As I have elements that function better in the corner, I set the rect mode to corner.

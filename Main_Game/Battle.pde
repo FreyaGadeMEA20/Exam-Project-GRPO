@@ -26,10 +26,14 @@ class Battle {
     enemy = _enemy;
   }
 
+  // ______ 
+
   void battleController(Battlefield battlefield) {
     calculateFastestMove(battlefield.selectedMove, round(random(1, 4)));
     battleOrder();
   }
+
+  // ______ 
 
   void calculateFastestMove(int allyMove, int enemyMove) {
     chosenMove = ally.moveSet.get(allyMove-1);
@@ -45,6 +49,8 @@ class Battle {
       speedOrder = 3;
     }
   }
+
+  // ______ 
 
   // To simulate the course of the battle, i create a function that takes in which move is fastest, and then orders the combat from fastest to slowest.
   void battleOrder() {
@@ -67,6 +73,8 @@ class Battle {
       }
     }
   }
+
+  // ______ 
 
   void battleTextWriter(Battlefield battlefield) {
     fill(0);
@@ -121,6 +129,8 @@ class Battle {
     text(text[textNumber].substring(0, counter), textOffset, battlefield.dialogueBox[1]-textOffset); // Position of text
   }
 
+  // ______ 
+
   void useAttack() {
     if (speedOrder == 1) {
       allyFirst();
@@ -130,6 +140,8 @@ class Battle {
       randomFirst();
     }
   }
+
+  // ______ 
 
   void allyFirst() {
     if (firstText) {
@@ -141,6 +153,8 @@ class Battle {
     }
   }
 
+  // ______ 
+
   void enemyFirst() {
     if (firstText) {
       enemy.useAttack(randomEnemyMove, ally);
@@ -150,6 +164,8 @@ class Battle {
       checkFaint(ally, enemy, 2);
     }
   }
+
+  // ______ 
 
   void randomFirst() {
     if (rand > 0.5) {
@@ -170,6 +186,8 @@ class Battle {
       }
     }
   }
+
+  // ______ 
 
   void checkFaint(Pokemon user, Pokemon target, int turn) {
     if (user.checkFaint(target)) {

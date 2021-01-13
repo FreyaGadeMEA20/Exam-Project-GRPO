@@ -10,6 +10,8 @@ Move move1, move2, move3, move4;
 
 Battle battle;
 
+SoundFile bgMusic;
+
 int allyPokemonLevel = 19;
 int enemyPokemonLevel = 16;
 
@@ -19,18 +21,26 @@ float[] allyPokemonStats = {8+allyPokemonLevel*2, 4+allyPokemonLevel, 4+allyPoke
 
 String allyPokemonName = "Bulbasaur";
 String enemyPokemonName = "Enemy Bulbasaur";
-String[] allyMoves = {"Tackle.mp3","Razor Leaf.mp3", "Vine Whip.mp3", "Hyper Beam.mp3"};
+String[] allyMoves = {"Tackle", "Razor Leaf", "Vine Whip", "Hyper Beam"};
+
+// ______ 
 
 void setup() {
   size(512, 384); //Size is the same as twice the size of a Nintendo DS screen.
   rectMode(CENTER);
   imageMode(CENTER);
 
+  bgMusic = new SoundFile(this, "battleMusic.mp3");
+  bgMusic.amp(0.05);
+  bgMusic.loop();
+
   battlefield = new Battlefield();
 
   battlefield.visualVariables();
   generatePokemon();
 }
+
+// ______ 
 
 void draw() {
 
@@ -52,18 +62,22 @@ void draw() {
   }
 }
 
+// ______ 
+
 void generatePokemon() {
   enemyPokemon = new Pokemon(enemyPokemonName, "Normal", enemyPokemonStats, enemyPokemonLevel);
   allyPokemon = new Pokemon(allyPokemonName, "five", "five", allyPokemonStats, allyPokemonLevel);
 
-  Move move1 = new Move("Tackle", "Tackles the opponent", 40, 100, 35, "Normal", "Physical", 1, new SoundFile(this, allyMoves[0]));
-  Move move2 = new Move("Razor Leaf", "Tackles the opponent", 55, 90, 25, "Grass", "Special", 1, new SoundFile(this, allyMoves[1]));
-  Move move3 = new Move("Vine Whip", "", 45, 100, 25, "Grass", "Physical", 1, new SoundFile(this, allyMoves[2]));
-  Move move4 = new Move("Hyper Beam", "", 150, 50, 5, "Normal", "Special", 1, new SoundFile(this, allyMoves[3]));  
+  Move move1 = new Move(allyMoves[0], "Tackles the opponent", 40, 100, 35, "Normal", "Physical", 1, new SoundFile(this, allyMoves[0] + ".mp3"));
+  Move move2 = new Move(allyMoves[1], "Tackles the opponent", 55, 90, 25, "Grass", "Special", 1, new SoundFile(this, allyMoves[1] + ".mp3"));
+  Move move3 = new Move(allyMoves[2], "", 45, 100, 25, "Grass", "Physical", 1, new SoundFile(this, allyMoves[2] + ".mp3"));
+  Move move4 = new Move(allyMoves[3], "", 150, 50, 5, "Normal", "Special", 1, new SoundFile(this, allyMoves[3] + ".mp3"));  
 
   allyPokemon.setMoves(move1, move2, move3, move4);
   enemyPokemon.setMoves(move1, move2, move3, move4);
 }
+
+// ______ 
 
 void mousePressed() {
   if (battlefield.selectedAMove) {
