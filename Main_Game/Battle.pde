@@ -9,11 +9,11 @@ class Battle {
   int counter;
   int textNumber = 0;
   int textOffset = 20;
-  
+
   boolean firstText = true;
   boolean secondText = false;
   boolean thirdText = false;
-  
+
   boolean gameFinished = false;
   String winningText = "";
 
@@ -81,7 +81,7 @@ class Battle {
 
         // Variables controlling it is the next text to write
         firstText = false;
-        if (!thirdText){
+        if (!thirdText) {
           secondText = true;
         }
         counter = 0;
@@ -101,7 +101,7 @@ class Battle {
         counter = 0;
         textNumber++;
       }
-    } else if (thirdText){
+    } else if (thirdText) {
       if (counter < text[textNumber].length()) {
         counter++;
       } else if (counter >= text[textNumber].length()) {
@@ -110,7 +110,7 @@ class Battle {
         }
 
         // Variable to go back to picking moves
-        if (!gameFinished){
+        if (!gameFinished) {
           battlefield.chooseMove = true;
         } else {
           battlefield.gameFinished = true;
@@ -172,9 +172,9 @@ class Battle {
   }
 
   void checkFaint(Pokemon user, Pokemon target, int turn) {
-    if (user.checkFaint(target)){
-      if (turn == 1){
-          thirdText = true;
+    if (user.checkFaint(target)) {
+      if (turn == 1) {
+        thirdText = true;
       }
       textNumber++;
       text[2] = target.pokemonName + " has fainted.";

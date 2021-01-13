@@ -25,7 +25,7 @@ class Battlefield {
 
   boolean chooseMove = true;
 
-  color move1Color = 180, move2Color = #00FF00, move3Color = 180, move4Color = 180;
+  color move1Color = 180, move2Color = #00FF00, move3Color = #00FF00, move4Color = 180; // Future each move should have its own color
   int selectedMove;
   boolean moveSelected;
   boolean selectedAMove;
@@ -65,6 +65,16 @@ class Battlefield {
 
   void bg() {
     background(230, 255, 255);
+
+    strokeWeight(9); // Sets the stroke weight to 9, for chonky lines
+    for (int i = 0; i < height; i = i+10) {
+      float mappedColor = map(i, 0, height, 100, 200); // Remaps the value i, which is a large number from 0 to height, to a smaller number, 0 to 230, which is the max number in an 8-digit binary number, which colored are stored in.
+      stroke(mappedColor, 255, 255); // Changes the red color in the stroke equal to the mapped color
+      line(0, i, width, i); // draws a line for each time it runs the for loop
+    }
+    // Resets it to what it was previously
+    strokeWeight(1);
+    stroke(0);
 
     fill(50, 255, 50);
     ellipse(circleOne[0], circleOne[1], circleOne[2], circleOne[3]);
@@ -106,7 +116,6 @@ class Battlefield {
         selectedAMove = false;
       }
     } else {
-      
     }
   }
 
@@ -134,7 +143,7 @@ class Battlefield {
     text(pokemon.moveSet.get(moveName-1).name, x, y);
     return moveSelected;
   }
-  
+
   void enemyPokemonHealth(int currentHealth, int maxHealth, String name, int level) {
     rectMode(CORNER); // As I have elements that function better in the corner, I set the rect mode to corner.
 
