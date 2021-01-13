@@ -35,7 +35,6 @@ class Pokemon {
     arrayCopy(_stats, pokemonStats);
     currentHealth = round(_stats[healthPoints]);
     newHealth = round(_stats[healthPoints]);
-    //healthPoints = _stats[0];
 
     level = _level;
   }
@@ -73,10 +72,12 @@ class Pokemon {
       } else if (chosenMove.category == "Physical") {
         chosenMove.physicalDamageToTarget(level, pokemonStats[physicalAtk], target); // Use physical move
         chosenMove.playSound();
+        
         target.lowerHealth();
       } else if (chosenMove.category == "Special") {
         chosenMove.specialDamageToTarget(level, pokemonStats[specialAtk], target); // Use special move
         chosenMove.playSound();
+        
         target.lowerHealth();
       } else {
         println("No category found. Cannot execute move.");
@@ -85,7 +86,7 @@ class Pokemon {
       println("Miss");
     }
   }
-
+  
   // ______ 
 
   boolean checkFaint(Pokemon target) {
