@@ -1,40 +1,24 @@
-  /*
+/*
 Aalborg university in Copenhagen
-Medialogy - E20
-GRPO exam - 15.01.2021
-Lukas Gade Ravnsborg
-studyno. 20204013
-*/
+ Medialogy - E20
+ GRPO exam - 15.01.2021
+ Lukas Gade Ravnsborg
+ studyno. 20204013
+ */
 
 import processing.sound.*;
 
-// Instantiating two pokemon, one for enemy and one for ally.
+// Declaring two pokemon, one for enemy and one for ally.
 Pokemon enemyPokemon, allyPokemon; 
 
-// Instantiating the background
-Battlefield battlefield;
 
+// Declaring the moves, 4 for each Pokémon
 Move move1, move2, move3, move4;
 Move enemyMove1, enemyMove2, enemyMove3, enemyMove4;
 
-
+Battlefield battlefield;
 Battle battle;
-
 SoundFile bgMusic;
-
-int allyPokemonLevel = 19;
-int enemyPokemonLevel = 16;
-
-// HP, atk, def, spAtk, spDef, Accuracy, Evasion, Speed.
-// Each are based in accordance with the stats of the Pokemon, taken from Bulbapedia (wiki for pokemon), and the level of the pokemon
-float[] enemyPokemonStats = {8+enemyPokemonLevel*2, 4+enemyPokemonLevel, 4+enemyPokemonLevel, 9+enemyPokemonLevel, 9+enemyPokemonLevel, 1, 0, 3+9+enemyPokemonLevel};
-float[] allyPokemonStats = {8+allyPokemonLevel*2, 4+allyPokemonLevel, 4+allyPokemonLevel, 9+allyPokemonLevel, 9+allyPokemonLevel, 1, 0, 3+9+allyPokemonLevel};
-
-// Strings for names of the pokemon and their moves.
-String allyPokemonName = "Bulbasaur";
-String enemyPokemonName = "Enemy Bulbasaur";
-String[] allyMoves = {"Tackle", "Razor Leaf", "Vine Whip", "Hyper Beam"};
-String[] enemyMoves = {"Tackle", "Razor Leaf", "Vine Whip", "Hyper Beam"}; 
 
 // ______ 
 
@@ -61,8 +45,8 @@ void draw() {
 
   // I constantly update the battlefield each frame.
   battlefield.bg();
-  battlefield.allyPokemonHealth(round(allyPokemon.currentHealth), round(allyPokemon.pokemonStats[0]), allyPokemonName, allyPokemonLevel);
-  battlefield.enemyPokemonHealth(round(enemyPokemon.currentHealth), round(enemyPokemon.pokemonStats[0]), enemyPokemonName, enemyPokemonLevel);
+  battlefield.allyPokemonHealth(round(allyPokemon.currentHealth), round(allyPokemon.pokemonStats[0]), allyPokemon.pokemonName, allyPokemon.level);
+  battlefield.enemyPokemonHealth(round(enemyPokemon.currentHealth), round(enemyPokemon.pokemonStats[0]), enemyPokemon.pokemonName, enemyPokemon.level);
   battlefield.dialogueBox(allyPokemon);
 
   // Statement that runs if the booleans from the battlefield class are false, to decide what the state of the game is.
@@ -83,6 +67,21 @@ void draw() {
 
 // Function for generating both ally and enemy Pokémon
 void generatePokemon() {
+  // Levels for the Pokémon
+  int allyPokemonLevel = 19;
+  int enemyPokemonLevel = 16;
+
+  // HP, atk, def, spAtk, spDef, Accuracy, Evasion, Speed.
+  // Each are based in accordance with the stats of the Pokemon, taken from Bulbapedia (wiki for pokemon), and the level of the pokemon
+  float[] enemyPokemonStats = {8+enemyPokemonLevel*2, 4+enemyPokemonLevel, 4+enemyPokemonLevel, 9+enemyPokemonLevel, 9+enemyPokemonLevel, 1, 0, 3+9+enemyPokemonLevel};
+  float[] allyPokemonStats = {8+allyPokemonLevel*2, 4+allyPokemonLevel, 4+allyPokemonLevel, 9+allyPokemonLevel, 9+allyPokemonLevel, 1, 0, 3+9+allyPokemonLevel};
+
+  // Strings for names of the pokemon and their moves.
+  String allyPokemonName = "Bulbasaur";
+  String enemyPokemonName = "Enemy Bulbasaur";
+  String[] allyMoves = {"Tackle", "Razor Leaf", "Vine Whip", "Hyper Beam"};
+  String[] enemyMoves = {"Tackle", "Razor Leaf", "Vine Whip", "Hyper Beam"}; 
+  
   // Instantiate both the ally and enemy Pokémon based on their stats.
   allyPokemon = new Pokemon(allyPokemonName, "Grass", "Poison", allyPokemonStats, allyPokemonLevel);
   enemyPokemon = new Pokemon(enemyPokemonName, "Normal", enemyPokemonStats, enemyPokemonLevel); 
@@ -113,7 +112,7 @@ void mousePressed() {
     // Sets the booleans to false so the user cannot click more than once
     battlefield.selectedAMove = false;
     battlefield.chooseMove = false;
-    
+
     // Instantiates and runs the battle.
     battle = new Battle(allyPokemon, enemyPokemon);
     battle.battleController(battlefield);
