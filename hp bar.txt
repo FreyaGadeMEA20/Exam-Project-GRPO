@@ -1,5 +1,0 @@
- /*stroke(10,100,100);
-    fill(10,100,100);
-    rect(enemyHealthBar[0] - healthBarHeight*2-10, enemyHealthBar[1] - healthBarHeight+10, enemyHealthBar[2]/8, healthBarHeight,3,3,3,3);
-    textAlign(LEFT,CENTER);
-    text("HP",enemyHealthBar[0] - healthBarHeight*2-10, enemyHealthBar[1] - healthBarHeight+10);*/
